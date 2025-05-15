@@ -15,31 +15,43 @@ kotlin {
         }
     }
 
-    jvm("desktop")
+    val iosX64Target = iosX64()
+    val iosArm64Target = iosArm64()
+    val iosSimulatorArm64Target = iosSimulatorArm64()
 
-    // iOS Targets
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
+    val voyagerVersion = "1.1.0-beta02"
 
     sourceSets {
-        val desktopMain by getting
+        named("commonMain") {
+            resources.srcDir("src/commonMain/resources")
+        }
 
-        // Android dependencies
+        val commonMain by getting
+        val androidMain by getting
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+
+        // ✅ Shared iOS code
+        val iosMain by creating {
+            dependsOn(commonMain)
+        }
+
+        iosX64Main.dependsOn(iosMain)
+        iosArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Main.dependsOn(iosMain)
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation("io.insert-koin:koin-android:3.5.0")
+            implementation("cafe.adriel.voyager:voyager-hilt:$voyagerVersion")
+            implementation("cafe.adriel.voyager:voyager-livedata:$voyagerVersion")
+            implementation("cafe.adriel.voyager:voyager-kodein:$voyagerVersion")
+            implementation("cafe.adriel.voyager:voyager-rxjava:$voyagerVersion")
         }
 
-        // Common dependencies
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -55,30 +67,34 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
-
             implementation(libs.bundles.ktor)
+            implementation(compose.materialIconsExtended)
+            implementation(libs.kotlinx.datetime)
+            implementation("io.insert-koin:koin-core:3.5.0")
+            implementation("io.insert-koin:koin-compose:1.0.3")
+            implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+            implementation("cafe.adriel.voyager:voyager-screenmodel:$voyagerVersion")
+            implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:$voyagerVersion")
+            implementation("cafe.adriel.voyager:voyager-tab-navigator:$voyagerVersion")
+            implementation("cafe.adriel.voyager:voyager-transitions:$voyagerVersion")
+            implementation("cafe.adriel.voyager:voyager-koin:$voyagerVersion")
+            implementation(libs.compose.remember.setting)
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
 
-            implementation(libs.ktor.client.okhttp)
-        }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
     }
 }
 
+
 android {
     namespace = "org.example.project"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "org.example.project"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
     }
     packaging {
         resources {
@@ -98,5 +114,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.ui.android)
     debugImplementation(compose.uiTooling)
+    debugImplementation(libs.androidx.ui.tooling)
 }

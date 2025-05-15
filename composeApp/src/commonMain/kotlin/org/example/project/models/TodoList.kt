@@ -89,8 +89,8 @@ class TodoList {
 
         todo?.let {
             val index = items.indexOf(it)
-            items[index] = it.copy(isDone = !it.isDone)
-            return items[index].isDone
+            items[index] = it.copy(done = !it.done)
+            return items[index].done
         }
 
         return false
@@ -100,7 +100,7 @@ class TodoList {
      * Returns the ratio of completed items
      */
     fun doneRatio(): Double {
-        val doneCount = items.count { it.isDone }
+        val doneCount = items.count { it.done }
         val totalCount = items.size
         return if (totalCount > 0) {
             val ratio = (doneCount.toDouble() / totalCount * 100)

@@ -1,7 +1,11 @@
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import org.example.project.viewModels.ThemeViewModel
+import org.koin.compose.getKoin
 import ui.theme.MyShapes
 import ui.theme.WorkSansTypography
 
@@ -11,12 +15,13 @@ import ui.theme.WorkSansTypography
 private val LightColorScheme = lightColorScheme(
     primary = primaryColorLight,
     secondary = secondaryColorLight,
-    background = Color(0xFF000000),
     surface = fieldColorLight,
     onPrimary = textColorLight,
     onSecondary = textColorContrastLight,
     onBackground = textColorDark,
-    onSurface = textColorDark,
+    inverseOnSurface = contrastColorDark,
+    onSurface = contrastColorLight,
+    tertiary = fieldColorLight
 )
 
 /**
@@ -30,18 +35,17 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = textColorDark,
     onSecondary = textColorContrastDark,
     onBackground = textColorLight,
-    onSurface = textColorLight,
+    inverseOnSurface = contrastColorLight,
+    onSurface = contrastColorDark,
+    tertiary = fieldColorDark
 )
 
 /**
  * Custom theme composable (the wrapper of the app)
  */
 @Composable
-fun CustomTheme(
-    content: @Composable () -> Unit
-) {
-
-    val colors = if (isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
+fun CustomTheme(isDarkTheme: Boolean, content: @Composable () -> Unit) {
+    val colors = if (isDarkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(
         colorScheme = colors, // Use the custom color scheme

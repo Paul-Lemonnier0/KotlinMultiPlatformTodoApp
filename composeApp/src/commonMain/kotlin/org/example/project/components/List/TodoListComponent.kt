@@ -19,32 +19,20 @@ import org.example.project.models.TodoList
 @Composable
 fun TodoListSection(
     todoList: TodoList,
-    handleToggleTodo: (id: String, isDone: Boolean) -> Unit
+    handleItemClick: (id: String) -> Unit
 ) {
-
-    // Utils for the todo list
-    val isItemSelected: (String) -> Boolean = { id -> todoList.isSelected(id) }
-    val selectItem: (String) -> Unit = { id -> todoList.handleSelectItem(id) }
-
-    val toggleTodoItem: (String) -> Unit = { id ->
-        val isDone = todoList.toggleItemCompletion(id)
-        handleToggleTodo(id, isDone)
-    }
-
     // Lazy column to display the todo list (it's optimal for large lists)
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 5.dp),
-        contentPadding = PaddingValues(top = 15.dp)
+        contentPadding = PaddingValues(top = 15.dp, bottom = 30.dp)
     ) {
         items(todoList.items) { item ->
             //Using our custom todo item card component
             TodoItemCard(
                 item = item,
-                selectItem = selectItem,
-                isItemSelected = isItemSelected,
-                toggleTodoItem = toggleTodoItem
+                onClick = handleItemClick
             )
         }
     }

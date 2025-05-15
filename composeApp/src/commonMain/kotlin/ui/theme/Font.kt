@@ -1,12 +1,13 @@
 package ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import fontGrayColor
+
 import kotlinprojecttest.composeapp.generated.resources.Res
 import kotlinprojecttest.composeapp.generated.resources.worksans_Light
 import kotlinprojecttest.composeapp.generated.resources.worksans_Regular
@@ -14,9 +15,8 @@ import kotlinprojecttest.composeapp.generated.resources.worksans_bold
 import kotlinprojecttest.composeapp.generated.resources.worksans_medium
 import kotlinprojecttest.composeapp.generated.resources.worksans_semibold
 import org.jetbrains.compose.resources.Font
-import textColor
-import textColorContrast
 
+import fontGrayColor
 
 /**
  * Imports of a custom font family
@@ -68,7 +68,7 @@ fun RegularText(isGray: Boolean = false, isContrast: Boolean = false) = TextStyl
     fontFamily = WorkSansFontFamily(),
     fontWeight = FontWeight.SemiBold,
     fontSize = 16.sp,
-    color = if (isGray) fontGrayColor else if (isContrast) textColorContrast else textColor
+    color = if (isGray) fontGrayColor else if (isContrast) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary
 )
 
 /**
@@ -79,7 +79,7 @@ fun SubTitleText(isGray: Boolean = false, isContrast: Boolean = false) = TextSty
     fontFamily = WorkSansFontFamily(),
     fontWeight = FontWeight.Bold,
     fontSize = 20.sp,
-    color = if (isGray) fontGrayColor else if (isContrast) textColorContrast else textColor
+    color = if (isGray) fontGrayColor else if (isContrast) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary
 )
 
 /**
@@ -90,7 +90,7 @@ fun TitleText(isGray: Boolean = false, isContrast: Boolean = false) = TextStyle(
     fontFamily = WorkSansFontFamily(),
     fontWeight = FontWeight.Bold,
     fontSize = 24.sp,
-    color = if (isGray) fontGrayColor else if (isContrast) textColorContrast else textColor
+    color = if (isGray) fontGrayColor else if (isContrast) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary
 )
 
 /**
@@ -101,5 +101,5 @@ fun HugeText(isGray: Boolean = false, isContrast: Boolean = false) = TextStyle(
     fontFamily = WorkSansFontFamily(),
     fontWeight = FontWeight.Bold,
     fontSize = 40.sp,
-    color = if (isGray) fontGrayColor else if (isContrast) textColorContrast else textColor
+    color = if (isGray) fontGrayColor else if (isContrast) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary
 )

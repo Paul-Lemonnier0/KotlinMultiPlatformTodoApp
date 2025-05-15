@@ -2,9 +2,11 @@ package org.example.project.models
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpStatusCode
@@ -20,7 +22,11 @@ import kotlinx.serialization.json.Json
 class TodoListClient(private val httpClient: HttpClient) {
 
     // The base URL of the API
-    private val baseURL = "http://10.0.2.2:8080";
+    private val baseURL = "http://10.0.2.2:8080/todo";
+
+    init {
+        println("TodoListClient created")
+    }
 
     // Base Headers and params
     private fun io.ktor.client.request.HttpRequestBuilder.setCommonHeaders() {
@@ -28,26 +34,6 @@ class TodoListClient(private val httpClient: HttpClient) {
             append("Accept", "application/json")
             append("Content-Type", "application/json")
         }
-    }
-
-    /**
-     * Fetches the todo items from the API
-     * @return a list of todo items
-     */
-    suspend fun fetchTodoItems(): List<TodoItem> {
-        val response: HttpResponse = try {
-            httpClient.get("$baseURL/list") {
-                setCommonHeaders()
-            }
-        } catch (e: UnresolvedAddressException) {
-            println("Unable to resolve address : $e")
-            return emptyList()
-        } catch (e: Exception) {
-            println("Unexpected exception $e")
-            return emptyList()
-        }
-
-        return handleResponse(response)
     }
 
     /**
@@ -72,11 +58,35 @@ class TodoListClient(private val httpClient: HttpClient) {
     }
 
     /**
+     * Fetches the todo items from the API
+     * @return a list of todo items
+     */
+    suspend fun fetchTodoItems(): List<TodoItem> {
+        print("fetching items...")
+        val response: HttpResponse = try {
+            httpClient.get("$baseURL/all") {
+                setCommonHeaders()
+            }
+        } catch (e: UnresolvedAddressException) {
+            println("Unable to resolve address : $e")
+            return emptyList()
+        } catch (e: Exception) {
+            println("Unexpected exception $e")
+            return emptyList()
+        }
+
+        return handleResponse(response)
+    }
+
+    /**
      * Adds a todo item to the API
      * @param item the todo item to add
      */
     suspend fun addTodoItem(item: TodoItem): HttpResponse {
-        return httpClient.post("$baseURL/add") {
+
+        print("DANS LE CLIENT" + httpClient)
+
+        return httpClient.post("$baseURL/create") {
             setCommonHeaders()
 
             val id = item.id;
@@ -92,9 +102,8 @@ class TodoListClient(private val httpClient: HttpClient) {
      * @param newTitle the new title of the todo item
      */
     suspend fun editTodoItem(id: String, newTitle: String): HttpResponse {
-        return httpClient.post("$baseURL/updateTitle") {
+        return httpClient.put("$baseURL/updateTodoTitle/$id/$newTitle") {
             setCommonHeaders()
-            setBody(Json.encodeToString(mapOf("id" to id, "title" to newTitle)))
         }
     }
 
@@ -103,9 +112,8 @@ class TodoListClient(private val httpClient: HttpClient) {
      * @param id the id of the todo item to remove
      */
     suspend fun removeTodoItem(id: String): HttpResponse {
-        return httpClient.post("$baseURL/delete") {
+        return httpClient.delete("$baseURL/delete/$id") {
             setCommonHeaders()
-            setBody(Json.encodeToString(mapOf("id" to id)))
         }
     }
 
@@ -115,10 +123,20 @@ class TodoListClient(private val httpClient: HttpClient) {
      * @param isDone the new completion status of the todo item
      */
     suspend fun toggleTodoItem(id: String, isDone: Boolean): HttpResponse {
-        return httpClient.post("$baseURL/update") {
-            setCommonHeaders()
-            setBody(Json.encodeToString(mapOf("id" to id, "isDone" to isDone)))
+        val url = "$baseURL/state/${id}/${isDone.toString().lowercase()}" // Ensure 'true' or 'false'
+        println("PUT -> $url") // For debugging
 
+        return try {
+            httpClient.put(url) {
+                headers {
+                    append("Accept", "application/json")
+                    append("Content-Type", "application/json")
+                }
+            }
+        } catch (e: Exception) {
+            println("Failed to toggle todo item: $e")
+            throw e
         }
     }
+
 }

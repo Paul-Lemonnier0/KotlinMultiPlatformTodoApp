@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">todo.</string>
+
+    <!-- Add Todo List Bottom Sheet -->
+    <string name="add_todo_title">Add a task</string>
+    <string name="add_todo_add">Add</string>
+    <string name="add_todo_title_placeholder">Enter a title</string>
+    <string name="add_todo_empty_title_error">Title is required</string>
+
+    <!-- Edit Todo Item Bottom Sheet -->
+    <string name="edit_todo_title">Edit a task</string>
+    <string name="edit_todo_edit">Edit</string>
+    <string name="edit_todo_title_placeholder">Enter a title</string>
+    <string name="edit_todo_empty_title_error">Title is required</string>
+
+    <!-- Task Details Screen -->
+    <string name="task_details_title">Task Details</string>
+    <string name="task_details_remove">Remove</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+
+    <!-- Settings - Theme -->
+    <string name="settings_theme_category_title">Theme</string>
+    <string name="settings_theme_light">Light Theme</string>
+    <string name="settings_theme_dark">Dark Theme</string>
+
+    <!-- Settings - Language -->
+    <string name="settings_language_category_title">Language</string>
+    <string name="settings_language_fr">French</string>
+    <string name="settings_language_en">English</string>
+
+    <!-- Not Found Screen -->
+    <string name="not_found_title">Page not found</string>
+    <string name="not_found_link">Go to home screen</string>
+</resources>

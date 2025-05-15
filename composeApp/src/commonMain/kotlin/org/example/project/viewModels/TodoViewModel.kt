@@ -1,8 +1,9 @@
 package org.example.project.viewmodels
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -17,19 +18,27 @@ import kotlin.uuid.Uuid
  * TodoViewModel model
  * Helps separating the logic from the UI
  * @param client the todo list client
- * @param scope the coroutine scope
  * @param todoList the todo list
  */
 @OptIn(ExperimentalUuidApi::class)
-class TodoViewModel(private val client: TodoListClient, private val scope: CoroutineScope, private val todoList: TodoList) {
+class TodoViewModel(private val client: TodoListClient, private val todoList: TodoList) {
 
     // The base bottom sheets states
     val showAddBottomSheet = mutableStateOf(false)
     val showEditBottomSheet = mutableStateOf(false)
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     // On init we fetch the items
     init {
         fetchItems()
+    }
+
+    fun getTodoList(): TodoList {
+        return this.todoList
+    }
+
+    fun getTodoItem(id: String): TodoItem? {
+        return this.todoList.items.find { it.id == id }
     }
 
     /**
@@ -105,6 +114,7 @@ class TodoViewModel(private val client: TodoListClient, private val scope: Corou
     fun toggleTodoItem(id: String, isDone: Boolean) {
         scope.launch {
             try {
+                todoList.toggleItemCompletion(id)
                 client.toggleTodoItem(id, isDone)
             } catch (e: Throwable) {
                 println("Error: ${e.message}")

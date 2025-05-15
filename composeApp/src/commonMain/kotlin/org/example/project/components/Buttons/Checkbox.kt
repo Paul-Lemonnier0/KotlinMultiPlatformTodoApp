@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -15,8 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import contrastColor
-import secondaryColor
 
 /**
  * Base custom checkbox component
@@ -29,8 +28,8 @@ fun CustomCheckbox(
     onCheckedChange: (Boolean) -> Unit
 ) {
     // Colors of the checkbox depending on its state
-    val backgroundColor = if (isChecked) contrastColor else Color.Transparent
-    val borderColor = if (isChecked) contrastColor else secondaryColor
+    val backgroundColor = if (isChecked) MaterialTheme.colorScheme.onSurface else Color.Transparent
+    val borderColor = if (isChecked) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.secondary
 
     // Base radius of the checkbox
     val borderRadius = 500
@@ -49,7 +48,7 @@ fun CustomCheckbox(
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = "Checked",
-                tint = Color.White,
+                tint = MaterialTheme.colorScheme.inverseOnSurface,
                 modifier = Modifier.size(20.dp)
             )
         }

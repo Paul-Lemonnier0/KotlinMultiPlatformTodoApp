@@ -2,6 +2,7 @@ package org.example.project.components.Inputs
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -14,9 +15,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import ui.theme.RegularText
 
-import contrastColor
-import secondaryColor
-import fieldColor
 import ui.theme.MyShapes
 
 /**
@@ -49,11 +47,11 @@ fun CustomInput(
                 isFocused.value = focusState.isFocused
             },
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = contrastColor,
-            unfocusedBorderColor = secondaryColor,
-            cursorColor = contrastColor,
-            focusedLabelColor = secondaryColor,
-            unfocusedLabelColor = fieldColor,
+            focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+            cursorColor = MaterialTheme.colorScheme.onSurface,
+            focusedLabelColor = MaterialTheme.colorScheme.secondary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.tertiary,
         ),
 
         textStyle = RegularText(), // Calling our prebuild text style

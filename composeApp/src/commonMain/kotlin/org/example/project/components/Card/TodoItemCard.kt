@@ -1,5 +1,6 @@
 package org.example.project.components.Card
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -10,28 +11,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.example.project.components.Buttons.CustomCheckbox
 import org.example.project.models.TodoItem
+import org.example.project.viewmodels.TodoViewModel
+import org.koin.compose.getKoin
 import ui.theme.RegularText
 
 /**
  * TodoItemCard component (displayed in a todoList)
  * @param item the todo item to display
- * @param selectItem action of the card when it is clicked
- * @param isItemSelected if the card is selected or not
- * @param toggleTodoItem action of the checkbox when it is clicked
+ * @param onClick action of the card when it is clicked
  */
 @Composable
 fun TodoItemCard(
     item: TodoItem,
-    selectItem: (String) -> Unit,
-    isItemSelected: (String) -> Boolean,
-    toggleTodoItem: (String) -> Unit
+    onClick: (String) -> Unit
 ) {
+    val viewModel = getKoin().get<TodoViewModel>()
+
     // Calling our custom card component
     CardComponent(
-        onPress = { selectItem(item.id) },
-        isSelected = { isItemSelected(item.id) },
-        content = { TodoContent(item, toggleTodoItem) }
-    )
+        onPress = { onClick(item.id) },
+        isSelected = { false }
+    ) { TodoContent(item) { viewModel.toggleTodoItem(item.id, isDone = !item.done) } }
 }
 
 /**
@@ -42,7 +42,7 @@ fun TodoItemCard(
 @Composable
 fun TodoContent(
     todo: TodoItem,
-    toggleTodoItem: (String) -> Unit
+    toggleTodoItem: (String) -> Unit,
 ) {
     Row(
         modifier = Modifier.padding(0.dp),
@@ -54,7 +54,7 @@ fun TodoContent(
         Spacer(modifier = Modifier.weight(1.0f))
 
         CustomCheckbox(
-            isChecked = todo.isDone,
+            isChecked = todo.done,
             onCheckedChange = {
                 toggleTodoItem(todo.id)
             }

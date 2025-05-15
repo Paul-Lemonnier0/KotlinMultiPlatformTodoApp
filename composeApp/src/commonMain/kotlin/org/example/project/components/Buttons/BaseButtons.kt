@@ -12,15 +12,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import contrastColor
-import textColorContrast
-import secondaryColor
 
 import ui.theme.MyShapes
 
@@ -54,8 +52,8 @@ fun BaseButton(
     val buttonStretchModifier = if (isTextButton) Modifier.fillMaxWidth() else Modifier
 
     // Colors of the button depending on the button type
-    val bdColor = if (disabled) secondaryColor else borderColor ?: backgroundColor
-    val tintColor = if (disabled) secondaryColor else contentColor
+    val bdColor = if (disabled) MaterialTheme.colorScheme.secondary else borderColor ?: backgroundColor
+    val tintColor = if (disabled) MaterialTheme.colorScheme.secondary else contentColor
 
     // Arrangement of the button depending on the button type
     val rowArrangement = when {
@@ -136,8 +134,8 @@ fun BackgroundTextButton(
         onClick = onClick,
         text = text,
         icon = trailingIcon,
-        backgroundColor = backgroundColor ?: contrastColor,
-        contentColor = contentColor ?: textColorContrast,
+        backgroundColor = backgroundColor ?: MaterialTheme.colorScheme.onSurface,
+        contentColor = contentColor ?: MaterialTheme.colorScheme.onSecondary,
         disabled = disabled
     )
 }
@@ -163,8 +161,8 @@ fun BorderIconButton(
         onClick = onClick,
         icon = icon,
         backgroundColor = Color.Transparent,
-        contentColor = contentColor ?: contrastColor,
-        borderColor = borderColor ?: contrastColor,
+        contentColor = contentColor ?: MaterialTheme.colorScheme.onSurface,
+        borderColor = borderColor ?: MaterialTheme.colorScheme.onSurface,
         disabled = disabled
     )
 }
