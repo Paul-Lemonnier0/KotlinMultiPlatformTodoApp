@@ -17,7 +17,7 @@ fun BottomSheetTitle(
 ) {
     Text(
         title,
-        style = TitleText(), // Use of a predefined text style
+        style = TitleText(), // Use of a custom predefined text style
         modifier = Modifier.padding(bottom = 10.dp)
     )
 }

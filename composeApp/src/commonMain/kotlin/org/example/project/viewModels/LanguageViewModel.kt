@@ -6,13 +6,17 @@ import kotlinx.coroutines.flow.StateFlow
 import org.example.project.domain.Language
 import org.example.project.domain.Localization
 
+/**
+ * ViewModel for the language (manager)
+ */
 class LanguageViewModel(
     private val localization: Localization,
 ) : ViewModel() {
-
+    //Base value of the language
     private val _selectedLanguage = MutableStateFlow(Language.French)
     val selectedLanguage: StateFlow<Language> = _selectedLanguage
 
+    //"Key" to update the UI of the app
     private val _shouldRecreate = MutableStateFlow(false)
     val shouldRecreate: StateFlow<Boolean> = _shouldRecreate
 
@@ -25,7 +29,6 @@ class LanguageViewModel(
     fun clearRecreateFlag() {
         _shouldRecreate.value = false
     }
-
 
     init {
         val initialLang = Language.French

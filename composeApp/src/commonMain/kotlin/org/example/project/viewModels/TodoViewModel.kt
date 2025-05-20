@@ -65,7 +65,7 @@ class TodoViewModel(private val client: TodoListClient, private val todoList: To
                 val newItem = TodoItem(
                     id = Uuid.random().toString(),
                     title = text,
-                    creationDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toString()
+                    creationDate = Clock.System.now().toString()
                 )
                 client.addTodoItem(newItem)
                 todoList.addItem(newItem)

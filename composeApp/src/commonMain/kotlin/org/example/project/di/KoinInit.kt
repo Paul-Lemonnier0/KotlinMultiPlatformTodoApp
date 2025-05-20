@@ -7,6 +7,9 @@ import org.koin.core.module.Module
 
 expect val targetModule: Module
 
+/**
+ * Dependency injection initialization
+ */
 fun initKoin(
     config: (KoinApplication.() -> Unit)? = null,
     extraModules: List<Module> = emptyList()

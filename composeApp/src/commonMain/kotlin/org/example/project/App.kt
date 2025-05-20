@@ -51,14 +51,17 @@ fun App() {
         }
     }
 
+    //Reload the app UI when the selected language changes
     key(selectedLanguage.value) {
+        //Theme provider
         CustomTheme(isDarkTheme = isDarkTheme) {
+            //Navigator (tabs, home by default)
             TabNavigator(HomeTab) { tabNavigator ->
+                //Base layout
                 Scaffold(
                     bottomBar = {
                         BottomNavigation(
                             backgroundColor = MaterialTheme.colorScheme.secondary,
-
                         ) {
                             listOf(HomeTab, SettingsTab).forEach { tab ->
                                 val options = tab.options

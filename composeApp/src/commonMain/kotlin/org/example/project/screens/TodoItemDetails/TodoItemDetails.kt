@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinprojecttest.composeapp.generated.resources.Res
-import kotlinprojecttest.composeapp.generated.resources.settings_language_en
 import kotlinprojecttest.composeapp.generated.resources.task_details_remove
 import kotlinprojecttest.composeapp.generated.resources.task_details_title
 import org.example.project.components.Buttons.BackgroundTextButton
@@ -60,13 +59,13 @@ fun TodoItemDetails(todoId: String) {
                         contentColor = MaterialTheme.colorScheme.onSurface
                     )
                 }
-            ) {}
+            )
 
             // MAIN CONTENT
             if (todoItem != null) {
                 Box(
                     modifier = Modifier
-                        .weight(1f) // Take remaining space
+                        .weight(1f) // Takes remaining space
                         .fillMaxSize()
                 ) {
                     TodoListItemContent(todo = todoItem)

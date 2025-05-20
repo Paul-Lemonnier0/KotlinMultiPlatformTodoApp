@@ -1,11 +1,5 @@
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
-import org.example.project.viewModels.ThemeViewModel
-import org.koin.compose.getKoin
 import ui.theme.MyShapes
 import ui.theme.WorkSansTypography
 

@@ -17,12 +17,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinprojecttest.composeapp.generated.resources.Res
+import kotlinprojecttest.composeapp.generated.resources.add_todo_empty_title_error
 import kotlinprojecttest.composeapp.generated.resources.edit_todo_edit
+import kotlinprojecttest.composeapp.generated.resources.edit_todo_empty_title_error
 import kotlinprojecttest.composeapp.generated.resources.edit_todo_title
 import kotlinprojecttest.composeapp.generated.resources.edit_todo_title_placeholder
 import kotlinprojecttest.composeapp.generated.resources.task_details_remove
 import kotlinx.coroutines.launch
 import org.example.project.components.Inputs.CustomInput
+import org.example.project.models.InputError
 import org.example.project.models.TodoItem
 import org.jetbrains.compose.resources.stringResource
 
@@ -54,8 +57,16 @@ fun EditTodoBottomSheet(
         showBottomSheet.value = false
     }
 
+    val inputError = InputError(mutableStateOf(false), Res.string.edit_todo_empty_title_error.toString())
+
     // Handle submission
     fun validate() {
+        if(text.value.isEmpty()) {
+            inputError.toggleHasError(true)
+            return
+        }
+
+        inputError.toggleHasError(false)
         // Handle validation with the input text value
         handleEdit(text.value)
 
@@ -89,7 +100,8 @@ fun EditTodoBottomSheet(
                 // Input field for the todo item title
                 CustomInput(
                     text = text,
-                    placeholder = stringResource(Res.string.edit_todo_title_placeholder)
+                    placeholder = stringResource(Res.string.edit_todo_title_placeholder),
+                    inputError = inputError
                 )
 
                 // Footer of the bottom sheet (edit and remove button)

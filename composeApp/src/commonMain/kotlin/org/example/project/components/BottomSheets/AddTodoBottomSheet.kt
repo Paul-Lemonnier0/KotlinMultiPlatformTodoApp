@@ -17,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinprojecttest.composeapp.generated.resources.Res
 import kotlinprojecttest.composeapp.generated.resources.add_todo_add
+import kotlinprojecttest.composeapp.generated.resources.add_todo_empty_title_error
 import kotlinprojecttest.composeapp.generated.resources.add_todo_title
 import kotlinprojecttest.composeapp.generated.resources.add_todo_title_placeholder
 import kotlinprojecttest.composeapp.generated.resources.task_details_remove
 import kotlinx.coroutines.launch
 import org.example.project.components.Inputs.CustomInput
+import org.example.project.models.InputError
 import org.jetbrains.compose.resources.stringResource
 
 /**
@@ -41,8 +43,16 @@ fun AddTodoBottomSheet(
     // the title of the todo item that will be added
     val text = remember { mutableStateOf("") }
 
+    val inputError = InputError(mutableStateOf(false), Res.string.add_todo_empty_title_error.toString())
+
     // validation logic
     fun validate() {
+        if(text.value.isEmpty()) {
+            inputError.toggleHasError(true)
+            return
+        }
+
+        inputError.toggleHasError(false)
         // handle validation with the input text value
         handleValidation(text.value)
 
@@ -81,7 +91,8 @@ fun AddTodoBottomSheet(
                 // input field for the todo item title
                 CustomInput(
                     text = text,
-                    placeholder = stringResource(Res.string.add_todo_title_placeholder)
+                    placeholder = stringResource(Res.string.add_todo_title_placeholder),
+                    inputError = inputError
                 )
 
                 // footer of the bottom sheet (add button)

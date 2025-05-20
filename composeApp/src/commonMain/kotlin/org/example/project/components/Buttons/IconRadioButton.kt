@@ -21,6 +21,15 @@ import ui.theme.RegularText
 import org.example.project.components.Card.CardComponent
 import fontGrayColor
 
+
+/**
+ * Custom radio button component displaying an icon and a text
+ * @param onClick action of the radio button when it is clicked
+ * @param isSelected if the radio button is selected or not
+ * @param icon icon of the radio button
+ * @param label text of the radio button
+ * @param iconSize size of the icon
+ */
 @Composable
 fun IconRadioButton(
     onClick: () -> Unit,
@@ -29,6 +38,7 @@ fun IconRadioButton(
     label: String? = null,
     iconSize: Dp = 24.dp
 ) {
+    //Color of the icon whether it is selected or not
     val highlightColor = if(isSelected) MaterialTheme.colorScheme.onSurface else fontGrayColor
 
     CardComponent(

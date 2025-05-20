@@ -8,7 +8,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-@Preview
+/**
+ * Base navigation button to go back to the previous screen
+ */
 @Composable
 fun GoBackNavigationButton() {
     val navigator = LocalNavigator.current

@@ -11,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Base screen container, used to display the content of the screen
+ */
 @Composable
 fun BaseScreenContainer(hasBottomPadding: Boolean = true, content: @Composable () -> Unit) {
     Box(modifier = Modifier

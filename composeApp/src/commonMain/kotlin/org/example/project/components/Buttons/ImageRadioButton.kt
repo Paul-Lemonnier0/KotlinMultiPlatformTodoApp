@@ -19,6 +19,14 @@ import ui.theme.RegularText
 import org.example.project.components.Card.CardComponent
 import fontGrayColor
 
+/**
+ * Custom radio button component displaying an image and a text
+ * @param onClick action of the radio button when it is clicked
+ * @param isSelected if the radio button is selected or not
+ * @param img image of the radio button
+ * @param label text of the radio button
+ * @param iconSize size of the icon
+ */
 @Composable
 fun ImageRadioButton(
     onClick: () -> Unit,

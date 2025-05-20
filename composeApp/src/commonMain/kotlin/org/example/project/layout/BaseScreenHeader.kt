@@ -19,13 +19,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.theme.HugeText
 import ui.theme.TitleText
 
+/**
+ * Base screen header, used to display the base header of a screen (title, leftButton ?, rightButton ?)
+ */
 @Preview
 @Composable
 fun BaseScreenHeader(
     title: String,
     leftButton: (@Composable () -> Unit)? = null,
     rightButton: (@Composable () -> Unit)? = null,
-    content: @Composable () -> Unit
 ) {
     Column (
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -51,7 +53,5 @@ fun BaseScreenHeader(
             text = title,
             style = TitleText()
         )
-
-        content()
     }
 }
